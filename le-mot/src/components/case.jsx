@@ -1,4 +1,4 @@
-import default function Case({ lettre = '', status = ''}) {
+export default function Case({ lettre = '', status = ''}) {
     return (
         <div className={'case ${status}'} >
             {lettre}
