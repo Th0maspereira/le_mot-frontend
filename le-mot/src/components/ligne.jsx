@@ -1,10 +1,10 @@
 import Case from './case.jsx';
 
-function ligne({ mot = '', status = []}) {
+function Ligne({ mot = '', status = []}) {
     const cases = Array(5).fill('');
 
     return (
-        <div className='ligne'>
+        <div className='Ligne'>
             {cases.map((_, index) => (
                 <Case key= {index} lettre={mot[index] || ''} status={status[index] || ''} />
             ))}
