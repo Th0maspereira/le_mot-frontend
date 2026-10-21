@@ -1,10 +1,10 @@
 import Ligne from "./ligne.jsx";
 
-export default function tableau({ essaisPasses, essaisStatuts, essaiEnCours }) {
+export default function Tableau({ essaisPasses, essaisStatuts, essaiEnCours }) {
   const Lignes = Array(6).fill('');
 
   return (
-    <div className="tableau">
+    <div className="Tableau">
       {Lignes.map((_, index) => {
         if (index < essaisPasses.length) {
           return <Ligne key={index} mot={essaisPasses[index]} statuts={essaisStatuts[index]} />;

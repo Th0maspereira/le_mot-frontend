@@ -1,6 +1,6 @@
 import Case from './case.jsx';
 
-function Ligne({ mot = '', status = []}) {
+export default function Ligne({ mot = '', status = []}) {
     const cases = Array(5).fill('');
 
     return (
