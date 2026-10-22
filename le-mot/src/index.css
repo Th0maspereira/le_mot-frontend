@@ -8,13 +8,14 @@ body {
   justify-content: center;
 }
 
-/* 1. La Case : carrée avec des bords arrondis */
-.case {
+/* Les cases : toujours visibles avec un fond gris foncé et des bords arrondis */
+.Case {
   width: 58px;
   height: 58px;
-  background-color: #3a3a3c; /* Fond par défaut (cases vides) */
+  background-color: #272929; /* Fond gris foncé visible même si la case est vide */
   color: #ffffff;
-  border-radius: 8px; /* Bords arrondis comme sur la capture */
+  border: 2px solid #3a3a3c; /* Contour de la case */
+  border-radius: 8px; /* Bords arrondis */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,15 +25,15 @@ body {
   user-select: none;
 }
 
-/* 2. La Ligne : met les 5 cases côte à côte */
+/* La ligne : met les 5 cases côte à côte */
 .Ligne, .ligne {
   display: flex;
   justify-content: center;
-  gap: 8px; /* Espacement entre les cases */
-  margin-bottom: 8px; /* Espacement entre les lignes */
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-/* 3. Le Tableau : aligne les 6 lignes verticalement */
+/* Le tableau : empile les 6 lignes verticalement */
 .Tableau, .tableau {
   display: flex;
   flex-direction: column;
@@ -40,19 +41,18 @@ body {
   margin-top: 20px;
 }
 
-/* 4. Couleurs exactes des statuts (selon l'image) */
-
-/* Vert : lettre bien placée */
-.case.correct {
-  background-color: #3aa346;
+/* Couleurs des statuts */
+.Case.correct {
+  background-color: #3aa346; /* Vert */
+  border-color: #3aa346;
 }
 
-/* Orange : lettre présente mais mal placée */
-.case.present {
-  background-color: #d37f19;
+.Case.present {
+  background-color: #d37f19; /* Orange */
+  border-color: #d37f19;
 }
 
-/* Gris : lettre absente ou déjà jouée */
-.case.absent {
-  background-color: #3a3a3c;
+.Case.absent {
+  background-color: #3a3a3c; /* Gris foncé */
+  border-color: #3a3a3c;
 }
