@@ -1,6 +1,6 @@
-export default function Case({ lettre = '', status = '', active = false}) {
+export default function Case({ lettre = '', statuts = '', active = false}) {
     return (
-        <div className={`Case ${status} ${active ? 'active' : ''}`} >
+        <div className={`Case ${statuts} ${active ? 'active' : ''}`} >
             {lettre}
         </div>
     );

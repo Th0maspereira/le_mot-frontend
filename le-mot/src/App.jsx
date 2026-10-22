@@ -9,6 +9,31 @@ export default function App() {
   const [essaisStatuts, setEssaisStatuts] = useState([]);
   const [essaiEnCours, setEssaiEnCours] = useState("");
 
+  const analysemots = (mot) => {
+    const statuts = Array(5).fill("absente");
+    const lettresMystere = motMystere.split("");
+    const lettresEssai = mot.split("");
+
+    lettresEssai.forEach((lettre, l) => {
+      if (lettresMystere[l] === lettre) {
+        statuts[l] = "correcte";
+        lettresMystere[l] = null;
+      }
+    });
+
+    lettresEssai.forEach((lettre, l) => {
+      if (statuts[l] !== "correcte") {
+        const index = lettresMystere.indexOf(lettre);
+        if (index !== -1) {
+          statuts[l] = "presente";
+          lettresMystere[index] = null;
+        }
+      }
+    });
+
+    return statuts;
+  }
+
   useEffect(() => {
     const gestionTouche = (event) => {
       const touche = event.key.toUpperCase();
@@ -19,18 +44,19 @@ export default function App() {
       if (touche === "ENTER") {
         if (essaiEnCours.length === 5) {
           setEssaisPasses((prev) => [...prev, essaiEnCours]);
-          setEssaiEnCours(""); // On vide la ligne pour le prochain essai
+          const statuts = analysemots(essaiEnCours);
+
+          setEssaisStatuts((prev) => [...prev, statuts]);
+          setEssaiEnCours("");
         }
         return;
       }
 
-      // Touche Effacer : retirer la dernière lettre
       if (touche === "BACKSPACE") {
         setEssaiEnCours((prev) => prev.slice(0, -1));
         return;
       }
 
-      // Lettres de A à Z : ajouter la lettre si on a moins de 5 lettres
       if (/^[A-Z]$/.test(touche) && essaiEnCours.length < 5) {
         setEssaiEnCours((prev) => prev + touche);
       }

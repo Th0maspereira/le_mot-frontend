@@ -12,7 +12,7 @@ export default function Ligne({ mot = '', statuts = [], estActive = false }) {
           <Case 
             key={index} 
             lettre={mot[index] || ''} 
-            statut={statuts[index] || ''} 
+            statuts={statuts[index] || ''} 
             active={laCaseActive} 
           />
         );

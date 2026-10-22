@@ -42,22 +42,22 @@ body {
 }
 
 /* Couleurs des statuts */
-.Case.correct {
+.Case.correcte {
   background-color: #3aa346; /* Vert */
   border-color: #3aa346;
 }
 
-.Case.present {
+.Case.presente {
   background-color: #d37f19; /* Orange */
   border-color: #d37f19;
 }
 
-.Case.absent {
+.Case.absente {
   background-color: #3a3a3c; /* Gris foncé */
   border-color: #3a3a3c;
 }
 
 /* Contour un peu plus clair pour la case active en cours de saisie */
 .Case.active {
-  border-color: #b10091fe;
+  border-color: #b100917d;
 }
