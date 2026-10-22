@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import Tableau from "./components/Tableau.jsx";
+import motsSolutions from "./data/mots_solutions.json";
+
+const motMystere = motsSolutions[Math.floor(Math.random() * motsSolutions.length)].toUpperCase();
 
 export default function App() {
   const [essaisPasses, setEssaisPasses] = useState([]);
