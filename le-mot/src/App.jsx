@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import Tableau from "./components/Tableau.jsx";
 import motsSolutions from "./data/mots_solutions.json";
+import { verifierMot } from "./service/wikitionnaire.js";
 
 const motMystere = motsSolutions[Math.floor(Math.random() * motsSolutions.length)].toUpperCase();
 
 export default function App() {
   const [essaisPasses, setEssaisPasses] = useState([]);
   const [essaisStatuts, setEssaisStatuts] = useState([]);
-  const [essaiEnCours, setEssaiEnCours] = useState("");
-
+  const [essaiEnCours, setEssaiEnCours] = useState("")
+  const [messageErreur, setMessageErreur] = useState("");
   const analysemots = (mot) => {
     const statuts = Array(5).fill("absente");
     const lettresMystere = motMystere.split("");
@@ -35,14 +36,23 @@ export default function App() {
   }
 
   useEffect(() => {
-    const gestionTouche = (event) => {
+    const gestionTouche = async (event) => {
       const touche = event.key.toUpperCase();
 
       if (essaisPasses.length >= 6) return;
 
-      // Touche Entrée : valider le mot
+      setMessageErreur("");
+
       if (touche === "ENTER") {
         if (essaiEnCours.length === 5) {
+
+          const motValide = await verifierMot(essaiEnCours);
+          if (!motValide) {
+            setMessageErreur("Le mot n'existe pas !");
+            return;
+          }
+
+
           setEssaisPasses((prev) => [...prev, essaiEnCours]);
           const statuts = analysemots(essaiEnCours);
 
@@ -69,6 +79,9 @@ export default function App() {
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Le Mot Mystère</h1>
+      {messageErreur && <p className="message-erreur">{messageErreur}</p>}
+
+
       <Tableau
         essaisPasses={essaisPasses}
         essaisStatuts={essaisStatuts}

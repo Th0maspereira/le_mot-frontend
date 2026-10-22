@@ -61,3 +61,9 @@ body {
 .Case.active {
   border-color: #b100917d;
 }
+
+.message-erreur {
+  color: #ff4d4d;
+  font-weight: bold;
+  margin: 10px 0;
+}

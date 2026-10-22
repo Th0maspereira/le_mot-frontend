@@ -33,4 +33,5 @@ export async function verifierMot(mot) {
     )
 
     return estFrancais
+    return true
 }
