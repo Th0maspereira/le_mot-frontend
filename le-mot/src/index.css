@@ -56,3 +56,8 @@ body {
   background-color: #3a3a3c; /* Gris foncé */
   border-color: #3a3a3c;
 }
+
+/* Contour un peu plus clair pour la case active en cours de saisie */
+.Case.active {
+  border-color: #b10091fe;
+}

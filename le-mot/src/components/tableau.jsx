@@ -10,7 +10,7 @@ export default function Tableau({ essaisPasses, essaisStatuts, essaiEnCours }) {
           return <Ligne key={index} mot={essaisPasses[index]} statuts={essaisStatuts[index]} />;
         }
         if (index === essaisPasses.length) {
-          return <Ligne key={index} mot={essaiEnCours} />;
+          return <Ligne key={index} mot={essaiEnCours} estActive={true} />;
         }
         return <Ligne key={index} />;
       })}
