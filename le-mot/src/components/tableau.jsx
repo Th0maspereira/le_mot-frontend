@@ -1,18 +1,18 @@
-import ligne from "./ligne.jsx";
+import Ligne from "./ligne.jsx";
 
-export default function tableau({ essaisPasses, essaisStatuts, essaiEnCours }) {
-  const lignes = Array(6).fill('');
+export default function Tableau({ essaisPasses, essaisStatuts, essaiEnCours }) {
+  const Lignes = Array(6).fill('');
 
   return (
-    <div className="tableau">
-      {lignes.map((_, index) => {
+    <div className="Tableau">
+      {Lignes.map((_, index) => {
         if (index < essaisPasses.length) {
-          return <ligne key={index} mot={essaisPasses[index]} statuts={essaisStatuts[index]} />;
+          return <Ligne key={index} mot={essaisPasses[index]} statuts={essaisStatuts[index]} />;
         }
         if (index === essaisPasses.length) {
-          return <ligne key={index} mot={essaiEnCours} />;
+          return <Ligne key={index} mot={essaiEnCours} estActive={true} />;
         }
-        return <ligne key={index} />;
+        return <Ligne key={index} />;
       })}
     </div>
   );

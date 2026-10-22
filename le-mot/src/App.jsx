@@ -1,122 +1,53 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import Tableau from "./components/Tableau.jsx";
+import motsSolutions from "./data/mots_solutions.json";
 
-function App() {
-  const [count, setCount] = useState(0)
+const motMystere = motsSolutions[Math.floor(Math.random() * motsSolutions.length)].toUpperCase();
+
+export default function App() {
+  const [essaisPasses, setEssaisPasses] = useState([]);
+  const [essaisStatuts, setEssaisStatuts] = useState([]);
+  const [essaiEnCours, setEssaiEnCours] = useState("");
+
+  useEffect(() => {
+    const gestionTouche = (event) => {
+      const touche = event.key.toUpperCase();
+
+      if (essaisPasses.length >= 6) return;
+
+      // Touche Entrée : valider le mot
+      if (touche === "ENTER") {
+        if (essaiEnCours.length === 5) {
+          setEssaisPasses((prev) => [...prev, essaiEnCours]);
+          setEssaiEnCours(""); // On vide la ligne pour le prochain essai
+        }
+        return;
+      }
+
+      // Touche Effacer : retirer la dernière lettre
+      if (touche === "BACKSPACE") {
+        setEssaiEnCours((prev) => prev.slice(0, -1));
+        return;
+      }
+
+      // Lettres de A à Z : ajouter la lettre si on a moins de 5 lettres
+      if (/^[A-Z]$/.test(touche) && essaiEnCours.length < 5) {
+        setEssaiEnCours((prev) => prev + touche);
+      }
+    };
+
+    window.addEventListener("keydown", gestionTouche);
+    return () => window.removeEventListener("keydown", gestionTouche);
+  }, [essaiEnCours, essaisPasses]);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h1>Le Mot Mystère</h1>
+      <Tableau
+        essaisPasses={essaisPasses}
+        essaisStatuts={essaisStatuts}
+        essaiEnCours={essaiEnCours}
+      />
+    </div>
+  );
 }
-
-export default App

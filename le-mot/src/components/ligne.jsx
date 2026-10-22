@@ -1,13 +1,22 @@
 import Case from './case.jsx';
 
-function ligne({ mot = '', status = []}) {
-    const cases = Array(5).fill('');
+export default function Ligne({ mot = '', statuts = [], estActive = false }) {
+  const cases = Array(5).fill('');
 
-    return (
-        <div className='ligne'>
-            {cases.map((_, index) => (
-                <Case key= {index} lettre={mot[index] || ''} status={status[index] || ''} />
-            ))}
-        </div>
-    );
+  return (
+    <div className="Ligne">
+      {cases.map((_, index) => {
+        const laCaseActive = estActive && index === mot.length;
+
+        return (
+          <Case 
+            key={index} 
+            lettre={mot[index] || ''} 
+            statut={statuts[index] || ''} 
+            active={laCaseActive} 
+          />
+        );
+      })}
+    </div>
+  );
 }
