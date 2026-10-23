@@ -1,0 +1,1 @@
+apres le rendez vous j'ai remis a propre le app puis j'ai fait le fin de partie 

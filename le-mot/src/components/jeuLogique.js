@@ -1,8 +1,11 @@
 import motSolution from '../data/mots_solutions.json';
 
 export function motRandom() {
-    const motMystere = motSolution[Math.floor(Math.random() * motSolution.length)];
-    return motMystere.toUpperCase();
+    const motMystere = motSolution[Math.floor(Math.random() * motSolution.length)]; 
+    return {
+        mot: motMystere,
+        mystere: motMystere.toUpperCase()
+    };
 }
 
 export function analyseMot(mot, motMystere) {

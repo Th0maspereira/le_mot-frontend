@@ -2,21 +2,26 @@ import { useState, useEffect } from "react";
 import Tableau from "./components/Tableau.jsx";
 import { verifierMot } from "./service/wikitionnaire.js";
 import { motRandom, analyseMot } from "./components/jeuLogique.js";
+import FinDePartie from "./components/finDePartie.jsx";
 
 const motMystere = motRandom();
 
-export default function App() {
+export default function App() { 
   const [essaisPasses, setEssaisPasses] = useState([]);
   const [essaisStatuts, setEssaisStatuts] = useState([]);
   const [essaiEnCours, setEssaiEnCours] = useState("")
   const [messageErreur, setMessageErreur] = useState("");
+  const [estTerminee, setEstTerminee] = useState(false);
+  const [aGagne, setAGagne] = useState(false);
+  const rejouer = () => {
+    window.location.reload();
+  }
 
   useEffect(() => {
     const gestionTouche = async (event) => {
       const touche = event.key.toUpperCase();
 
-      if (essaisPasses.length >= 6) return;
-
+      if (estTerminee || essaisPasses.length >= 6) return;
       setMessageErreur("");
 
       if (touche === "ENTER") {
@@ -32,8 +37,21 @@ export default function App() {
           setEssaisPasses((prev) => [...prev, essaiEnCours]);
           const statuts = analyseMot(essaiEnCours, motMystere);
 
+          setEssaisPesses(nouveauxPasses)
           setEssaisStatuts((prev) => [...prev, statuts]);
           setEssaiEnCours("");
+
+          if (essaiEnCours === motMystere) {
+            setAGagne(true);
+            setEstTerminee(true);
+            return;
+          }
+
+          if (nouveauxPasses.length >= 6) {
+            setAGagne(false);
+            setEstTerminee(true);
+            return;
+          }
         }
         return;
       }
