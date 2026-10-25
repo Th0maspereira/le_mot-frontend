@@ -4,18 +4,21 @@ import { verifierMot } from "./service/wikitionnaire.js";
 import { motRandom, analyseMot } from "./components/jeuLogique.js";
 import FinDePartie from "./components/finDePartie.jsx";
 
-const motMystere = motRandom();
+const { mot: motAleatoire, mystere: motMystere } = motRandom();
 
 export default function App() { 
   const [essaisPasses, setEssaisPasses] = useState([]);
   const [essaisStatuts, setEssaisStatuts] = useState([]);
   const [essaiEnCours, setEssaiEnCours] = useState("")
   const [messageErreur, setMessageErreur] = useState("");
+  
+  // États de fin de partie
   const [estTerminee, setEstTerminee] = useState(false);
   const [aGagne, setAGagne] = useState(false);
+
   const rejouer = () => {
     window.location.reload();
-  }
+  };
 
   useEffect(() => {
     const gestionTouche = async (event) => {
@@ -33,11 +36,10 @@ export default function App() {
             return;
           }
 
-
-          setEssaisPasses((prev) => [...prev, essaiEnCours]);
+          const nouveauxPasses = [...essaisPasses, essaiEnCours];
           const statuts = analyseMot(essaiEnCours, motMystere);
 
-          setEssaisPesses(nouveauxPasses)
+          setEssaisPasses(nouveauxPasses);
           setEssaisStatuts((prev) => [...prev, statuts]);
           setEssaiEnCours("");
 
@@ -47,7 +49,7 @@ export default function App() {
             return;
           }
 
-          if (nouveauxPasses.length >= 6) {
+          if (nouveauxPasses.length === 6) {
             setAGagne(false);
             setEstTerminee(true);
             return;
@@ -68,19 +70,27 @@ export default function App() {
 
     window.addEventListener("keydown", gestionTouche);
     return () => window.removeEventListener("keydown", gestionTouche);
-  }, [essaiEnCours, essaisPasses]);
+  }, [essaiEnCours, essaisPasses, estTerminee]);
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Le Mot Mystère</h1>
       {messageErreur && <p className="message-erreur">{messageErreur}</p>}
 
-
       <Tableau
         essaisPasses={essaisPasses}
         essaisStatuts={essaisStatuts}
         essaiEnCours={essaiEnCours}
       />
+
+      {estTerminee && (
+        <FinDePartie
+          aGagne={aGagne}
+          motMystere={motAleatoire}
+          nbEssais={essaisPasses.length}
+          onRejouer={rejouer}
+        />
+      )}
     </div>
   );
 }

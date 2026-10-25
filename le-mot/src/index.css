@@ -67,3 +67,45 @@ body {
   font-weight: bold;
   margin: 10px 0;
 }
+
+.fin-de-partie {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #272929;
+  border: 1px solid #3a3a3c;
+  border-radius: 8px;
+  display: inline-block;
+  max-width: 400px;
+  width: 100%;
+  color: #ffffff;
+  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.fin-de-partie h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.fin-de-partie p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.btn-rejouer {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #3aa346;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-rejouer:hover {
+  background-color: #2e8337;
+}
