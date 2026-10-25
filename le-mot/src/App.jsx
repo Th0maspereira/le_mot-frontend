@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
-import Tableau from "./components/Tableau.jsx";
+import Tableau from "./components/tableau.jsx";
+import FinDePartie from "./components/finDePartie.jsx";
+import Accueil from "./pages/Accueil.jsx";
 import { verifierMot } from "./service/wikitionnaire.js";
 import { motRandom, analyseMot } from "./components/jeuLogique.js";
-import FinDePartie from "./components/finDePartie.jsx";
 
-const { mot: motAleatoire, mystere: motMystere } = motRandom();
+const { mot: motOriginal, mystere: motMystere } = motRandom();
 
 export default function App() { 
+  const [partieCommencee, setPartieCommencee] = useState(false);
+
   const [essaisPasses, setEssaisPasses] = useState([]);
   const [essaisStatuts, setEssaisStatuts] = useState([]);
-  const [essaiEnCours, setEssaiEnCours] = useState("")
+  const [essaiEnCours, setEssaiEnCours] = useState("");
   const [messageErreur, setMessageErreur] = useState("");
   
-  // États de fin de partie
   const [estTerminee, setEstTerminee] = useState(false);
   const [aGagne, setAGagne] = useState(false);
 
@@ -21,6 +23,8 @@ export default function App() {
   };
 
   useEffect(() => {
+    if (!partieCommencee) return;
+
     const gestionTouche = async (event) => {
       const touche = event.key.toUpperCase();
 
@@ -70,26 +74,32 @@ export default function App() {
 
     window.addEventListener("keydown", gestionTouche);
     return () => window.removeEventListener("keydown", gestionTouche);
-  }, [essaiEnCours, essaisPasses, estTerminee]);
+  }, [essaiEnCours, essaisPasses, estTerminee, partieCommencee]);
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1>Le Mot Mystère</h1>
-      {messageErreur && <p className="message-erreur">{messageErreur}</p>}
+      {!partieCommencee ? (
+        <Accueil onLancerPartie={() => setPartieCommencee(true)} />
+      ) : (
+        <>
+          <h1>Le Mot Mystère</h1>
+          {messageErreur && <p className="message-erreur">{messageErreur}</p>}
 
-      <Tableau
-        essaisPasses={essaisPasses}
-        essaisStatuts={essaisStatuts}
-        essaiEnCours={essaiEnCours}
-      />
+          <Tableau
+            essaisPasses={essaisPasses}
+            essaisStatuts={essaisStatuts}
+            essaiEnCours={essaiEnCours}
+          />
 
-      {estTerminee && (
-        <FinDePartie
-          aGagne={aGagne}
-          motMystere={motAleatoire}
-          nbEssais={essaisPasses.length}
-          onRejouer={rejouer}
-        />
+          {estTerminee && (
+            <FinDePartie
+              aGagne={aGagne}
+              motMystere={motOriginal}
+              nbEssais={essaisPasses.length}
+              onRejouer={rejouer}
+            />
+          )}
+        </>
       )}
     </div>
   );
